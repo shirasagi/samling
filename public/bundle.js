@@ -46635,7 +46635,7 @@ function logout(info) {
     var delim = info.callbackUrl.indexOf('?') === -1 ? '?' : '&';
     location.href = info.callbackUrl + delim + 'SAMLResponse=' + encodeURIComponent(btoa(info.response));
   } else {
-    location.href = location.href.replace(location.search, '');
+    href = location.href.replace(location.search, '');
   }
 }
 
@@ -46837,9 +46837,24 @@ $(function() {
       samlStatusCode: $('#samlStatusCode').val().trim(),
       samlStatusMessage: $('#samlStatusMessage').val().trim()
     });
+    var relayState = function() {
+      var index = location.search.indexOf('RelayState=');
+      if (index < 0) {
+        return undefined;
+      }
+
+      var end = location.search.indexOf('&', index + 11);
+      if (end === -1) {
+        end = location.search.length;
+      }
+      var length = end - index - 11;
+      return location.search.substr(index + 11, length);
+    };
+  
     $('#samlResponse').val(response);
     $('#callbackUrlReadOnly').val(callbackUrl);
     $('#navbarSamling a[href="#samlResponseTab"]').tab('show')
+    $('#relayState').val(relayState());
   });
 
   $('#postSAMLResponse').click(function(event) {
