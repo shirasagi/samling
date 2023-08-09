@@ -2,7 +2,7 @@ var crypto = require('crypto');
 var fs = require('fs');
 window.CLIPBOARDJS = require('clipboard-js');
 window.SAML = require('./saml');
-const COOKIE_NAME = 'samling';
+const COOKIE_NAME = 'samling' + new Date().getTime();
 
 function deleteCookie() {
   document.cookie = COOKIE_NAME + '=' + ';path=/;expires=' + (new Date(1));
